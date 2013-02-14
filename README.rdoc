@@ -1,0 +1,22 @@
+= Veneer
+
+Multi color grayscale printing using a single extruder and filament that changes color based on extrusion temp such as
+LAYWOO-D3!
+
+= How it works
+
+Veneer is a gcode post processing script to apply an image texture to the perimeter when printing LAYWOO-D3 which gets darker when temperature is increased.  Just changing extrusion temperature doesn't change color fast enough.  However, by slowing down the print speed, the hot nozzle spends more time in one area, causing the LAYWOO-D3 to warm up enough to cause rapid color changes.
+
+This proof of concept uses a cylinder with 100 facets that is 30mm tall and is sliced at 0.3 layer height and 30mm/s feedrate.  This results in exactly 100 gcode moves on the outer perimeter and 100 layers.  The script then maps each pixel in a 100 x 100 black and white image to each facet gcode move and layer and slows down on black pixels. (TODO: grayscale) Also, it requires gcode produced by skeinforge because it finds the perimeter moves by looking for the (<edge> outer ) gcode comments.
+
+= Usage
+
+  ruby veneer.rb wood_texture_cup.gcode image.png > new.gcode
+
+= TODO
+
+* Add grayscale support
+* Figure out minimum feature size/resolution
+* Calculate print speed/temp -> color change intensity so it can print at higher speeds
+* add a way to apply texture to flat surfaces (top/bottom/flat sides) by splitting long gcode movements into smaller chunks
+* Add proper texture mapping so that image can be applied to any shape
