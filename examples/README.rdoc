@@ -1,0 +1,5 @@
+Note: example gcode is setup to use extruder 2 (T1) So if you want to do it on a rep2, you'll have to modify the gcode or reslice.  Also you'll want to make sure your thread width is 0.4mm.
+
+checker_board.jpg was processed with black at 1/2 speed that is why it is lighter
+
+checker_board2.jpg was black at 1/4 speed thats why it's darker
