@@ -13,7 +13,7 @@ pixels = []
 
 img = Magick::Image::read(img_filename)[0]
 img = img.quantize(256, Magick::GRAYColorspace)
-# img.flip!
+img.flip!
 # puts "This image is #{img.columns}x#{img.rows} pixels"
 
 # puts img.pixel_color(0,0).intensity/257
@@ -55,7 +55,7 @@ File.open(gcode_filename, "r") do |file|
         e = $5
       
         # TODO: add shades of gray, for now it's just black and white
-        darkness = img.pixel_color(current_column-1, current_row-1).intensity/257 == 255 ? 1 : 0
+        darkness = img.pixel_color(current_column-1, current_row-1).intensity/257 == 255 ? 0 : 1
       
         # slow speed down on black parts
         if darkness == 1
