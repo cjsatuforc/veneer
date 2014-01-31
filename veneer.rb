@@ -53,16 +53,23 @@ File.open(gcode_filename, "r") do |file|
         z = $3
         f = $4
         e = $5
-      
-        # TODO: add shades of gray, for now it's just black and white
-        darkness = img.pixel_color(current_column-1, current_row-1).intensity/257 == 255 ? 0 : 1
-      
+
+        # old: black and white
+        # darkness = img.pixel_color(current_column-1, current_row-1).intensity/257 == 255 ? 0 : 1
         # slow speed down on black parts
-        if darkness == 1
-          f = f.to_f/4.0
-          # slow down extrusion?
-          # e = e.to_f/4.0
-        end
+        # if darkness == 1
+        #   f = f.to_f/4.0
+        #   # slow down extrusion?
+        #   # e = e.to_f/4.0
+        # end
+
+        # new grayscale as percentage of intensity
+        darkness = (img.pixel_color(current_column-1, current_row-1).intensity/257).to_f / 255.0
+        # assume minimum speed is 1/5th for black (darkness=1) and full speed is white (darkness=0)
+        min_speed = f.to_f / 5.0
+        max_speed = f.to_f
+        f = (((max_speed - min_speed) / 100.0) * (darkness * 100.0)) + min_speed;
+        # puts "#{darkness} darkness = #{f} speed"
       
         puts "G1 X#{x} Y#{y} Z#{z} F#{f} E#{e}"
       end
